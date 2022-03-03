@@ -2,8 +2,36 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import config from "../lib/config";
+import * as CosmosClient from '@azure/cosmos'
 
-const Home: NextPage = () => {
+export const getServerSideProps = async(context : any) => {
+  const { endpoint, key, database, container } = config;
+
+  const client = new CosmosClient.CosmosClient({ endpoint, key });
+
+  const databaseID = client.database(database);
+  const containerID = databaseID.container(container);
+
+  if (endpoint) {
+    console.log(`Querying container:\\n${containerID}`);
+    const querySpec = {
+      query: "SELECT * FROM c",
+    };
+
+    const { resources: items } = await containerID.items
+      .query(querySpec)
+      .fetchAll();
+
+      return {
+        props: { [key]: items }
+      }
+  }
+}
+
+
+const Home: NextPage = (props) => {
+  console.log(props)
   return (
     <div className={styles.container}>
       <Head>
