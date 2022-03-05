@@ -40,6 +40,11 @@ export const getServerSideProps = async (
   return { props: {} };
 };
 
-const Redirector = () => <></>;
+const Redirector = () => {
+  console.log('calling in the index')
+  return (
+  <></>
+  );
+}
 
 export default Redirector;
