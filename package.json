@@ -9,14 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^0.26.0",
     "next": "12.1.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "shortid": "^2.2.16",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@azure/cosmos": "^3.15.1",
     "@types/node": "17.0.21",
     "@types/react": "17.0.39",
+    "@types/shortid": "^0.0.29",
+    "@types/uuid": "^8.3.4",
     "eslint": "8.10.0",
     "eslint-config-next": "12.1.0",
     "typescript": "4.6.2"
