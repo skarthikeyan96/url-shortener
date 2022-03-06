@@ -4,6 +4,7 @@ import shortid from "shortid";
 import { v4 as uuidv4 } from "uuid";
 import * as setup from "../../lib/db";
 import { setUpBaseUrl } from "../../lib/SetupBaseUrl";
+import logger from "../../lib/logger";
 
 type Data = {
   data: any;
@@ -33,7 +34,7 @@ export default async function handler(
       .query(querySpec)
       .fetchAll();
 
-    console.log(response);
+    logger.info(response);
 
     if (response?.resources.length !== 0) {
       return res.status(200).json(response?.resources[0]);

@@ -1,6 +1,7 @@
 import { GetServerSidePropsContext } from "next";
 import * as setup from "../lib/db";
 import { setUpBaseUrl } from "../lib/SetupBaseUrl";
+import logger from '../lib/logger';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
@@ -21,12 +22,12 @@ export const getServerSideProps = async (
       ],
     };
 
-    console.log(querySpec);
+    logger.info(querySpec);
     const res: any = await connection?.containerID.items
       .query(querySpec)
       .fetchAll();
 
-    console.log(res);
+      logger.info(res);
     if (res?.resources.length > 0) {
       return {
         redirect: {
@@ -41,7 +42,6 @@ export const getServerSideProps = async (
 };
 
 const Redirector = () => {
-  console.log('calling in the index')
   return (
   <></>
   );
