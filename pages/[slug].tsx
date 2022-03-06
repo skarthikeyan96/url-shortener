@@ -7,7 +7,6 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const { slug }: any = context?.params;
-  console.log(slug)
   if (slug.length > 0) {
     const connection = setup.setupDb();
     const base = setUpBaseUrl();

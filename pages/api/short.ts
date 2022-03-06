@@ -39,7 +39,6 @@ export default async function handler(
     if (response?.resources.length !== 0) {
       return res.status(200).json(response?.resources[0]);
     } else {
-      console.log("going in else");
       const response: any = await connection?.containerID.items.create({
         id: uuidv4(),
         short_url: `${base}/${urlId}`,

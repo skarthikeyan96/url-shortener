@@ -8,7 +8,6 @@ import { useState } from 'react';
 import axios from 'axios';
 
 const Home: NextPage = (props) => {
-  console.log(props)
 
   const [url, setUrl] = useState('');
 
@@ -22,7 +21,6 @@ const Home: NextPage = (props) => {
         original_url: url
       }
     })
-    console.log(response.data)
     setShortUrl(response.data.short_url)
   }
   return (
