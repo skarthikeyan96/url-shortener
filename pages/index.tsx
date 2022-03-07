@@ -8,7 +8,7 @@ import axios from "axios";
 import Layout from "../components/Layout";
 
 const RenderTable = ({ url }: { url: string }) => {
-  const [copySuccess, setCopySuccess] = useState('copy');
+  const [copySuccess, setCopySuccess] = useState("copy");
 
   const handleClick = () => {
     navigator.clipboard
@@ -72,8 +72,10 @@ const RenderTable = ({ url }: { url: string }) => {
                         ></path>
                       </svg>{" "}
                     </a>
-                    <button className="ml-2 inline-flex items-center bg-white border-0 pr-2 focus:outline-none  rounded text-base mt-4 md:mt-0 dark:bg-gray-700 p-2" onClick={handleClick}>
-
+                    <button
+                      className="ml-2 inline-flex items-center bg-white border-0 pr-2 focus:outline-none  rounded text-base mt-4 md:mt-0 dark:bg-gray-700 p-2"
+                      onClick={handleClick}
+                    >
                       <svg
                         className="w-6 h-6"
                         fill="none"
@@ -88,7 +90,7 @@ const RenderTable = ({ url }: { url: string }) => {
                           d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
                         ></path>
                       </svg>
-                      <p className="font-light ml-2">{copySuccess}  </p>
+                      <p className="font-light ml-2">{copySuccess} </p>
                     </button>
                   </td>
                 </tr>
@@ -101,24 +103,35 @@ const RenderTable = ({ url }: { url: string }) => {
   );
 };
 
-
 const Home: NextPage = () => {
   const [url, setUrl] = useState("");
 
   const [shortUrl, setShortUrl] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleClick = async () => {
-    setLoading(true);
-    const response = await axios({
-      method: "POST",
-      url: "/api/short",
-      data: {
-        original_url: url,
-      },
-    });
-    setShortUrl(response.data.short_url);
-    setLoading(false);
+    if (url.length > 0) {
+      try {
+        setLoading(true);
+        const response = await axios({
+          method: "POST",
+          url: "/api/short",
+          data: {
+            original_url: url,
+          },
+        });
+
+        setShortUrl(response.data.short_url);
+
+        setLoading(false);
+      } catch (e) {
+        setError("something went wrong !.. 🤔 🤔 🤔");
+        setLoading(false);
+      }
+    } else {
+      alert("Please enter a url to continue");
+    }
   };
   return (
     <>
@@ -134,6 +147,7 @@ const Home: NextPage = () => {
               type="text"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
+              required
               className="
               mt-1
               block
@@ -149,7 +163,6 @@ const Home: NextPage = () => {
               className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ml-8 mt-1 dark:bg-gray-600 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-800"
               onClick={handleClick}
             >
-             
               Shorten
             </button>
           </div>
@@ -159,6 +172,8 @@ const Home: NextPage = () => {
             ) : (
               shortUrl.length !== 0 && <RenderTable url={shortUrl} />
             )}
+
+            {error.length > 0 && <p> {error}</p>}
           </div>
         </div>
       </Layout>
