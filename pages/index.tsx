@@ -1,9 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
-import config from "../lib/config";
-import * as CosmosClient from "@azure/cosmos";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import Layout from "../components/Layout";
 
@@ -113,6 +110,7 @@ const Home: NextPage = () => {
   const handleClick = async () => {
     if (url.length > 0) {
       try {
+        setError('')
         setLoading(true);
         const response = await axios({
           method: "POST",
@@ -121,14 +119,12 @@ const Home: NextPage = () => {
             original_url: url,
           },
         });
-
-        setShortUrl(response.data.short_url);
-
-        setLoading(false);
+        setShortUrl(response.data.short_url); 
       } catch (e) {
-        setError("something went wrong !.. 🤔 🤔 🤔");
-        setLoading(false);
+        setError("something went wrong !.. 🤔 🤔 🤔");       
       }
+      setLoading(false)
+      setUrl('')
     } else {
       alert("Please enter a url to continue");
     }
@@ -170,7 +166,7 @@ const Home: NextPage = () => {
             {loading ? (
               <p> Loading .... </p>
             ) : (
-              shortUrl.length !== 0 && <RenderTable url={shortUrl} />
+              error.length ===0 && shortUrl.length !== 0 && <RenderTable url={shortUrl} />
             )}
 
             {error.length > 0 && <p> {error}</p>}
