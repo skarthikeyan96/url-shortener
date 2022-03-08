@@ -50,9 +50,3 @@ instead of shortening the url it will just return the shortened url.
 - Authentication
 
 - List the previously shortened urls
-
-
-## Roadmap
-
-[App Roadmap](https://checkered-rambutan-1eb.notion.site/Roadmap-1ec85d9b99a546378942040a0fa7e8d8)
-
